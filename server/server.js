@@ -1,5 +1,11 @@
 const express = require('express');
+// Imports the apollo server and express middleware
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
+// Imports our typeDefs and resolvers
+// Uncomment this out when we get these files made
+// const { typeDefs, resolvers } = require('./');
 const db = require('./config/connection');
 const routes = require('./routes');
 
