@@ -44,26 +44,8 @@ THEN that book is deleted from my saved books list
 WHEN I click on the Logout button
 THEN I am logged out of the site and presented with a menu with the options Search for Books and Login/Signup and an input field to search for books and a submit button
 
-Back-End Specifications
-You’ll need to complete the following tasks in each of these back-end files:
-Schemas directory:
--resolvers.js: Define the query and mutation functionality to work with the Mongoose models.
-Hint: Use the functionality in the user-controller.js as a guide.
--typeDefs.js: Define the necessary Query and Mutation types:
---Query type:
----me: Which returns a User type.
---Mutation type:
----login: Accepts an email and password as parameters; returns an Auth type.
----addUser: Accepts a username, email, and password as parameters; returns an Auth type.
----saveBook: Accepts a book author's array, description, title, bookId, image, and link as parameters; returns a User type. (Look into creating what's known as an input type to handle all of these parameters!)
----removeBook: Accepts a book's bookId as a parameter; returns a User type.
---Auth type:
----token
----user (References the User type.)
-
 Front-End Specifications
 You'll need to create the following front-end files:
--queries.js: This will hold the query GET_ME, which will execute the me query set up using Apollo Server.
 -mutations.js:
 --LOGIN_USER will execute the loginUser mutation set up using Apollo Server.
 --ADD_USER will execute the addUser mutation.
@@ -71,7 +53,6 @@ You'll need to create the following front-end files:
 --REMOVE_BOOK will execute the removeBook mutation.
 
 Additionally, you’ll need to complete the following tasks in each of these front-end files:
--App.jsx: Create an Apollo Provider to make every request work with the Apollo Server.
 -SearchBooks.jsx:
 --Use the Apollo useMutation() Hook to execute the SAVE_BOOK mutation in the handleSaveBook() function instead of the saveBook() function imported from the API file.
 --Make sure you keep the logic for saving the book's ID to state in the try...catch block!
