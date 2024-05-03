@@ -46,8 +46,6 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 
 Back-End Specifications
 You’ll need to complete the following tasks in each of these back-end files:
--auth.js: Update the auth middleware function to work with the GraphQL API.
-
 Schemas directory:
 -resolvers.js: Define the query and mutation functionality to work with the Mongoose models.
 Hint: Use the functionality in the user-controller.js as a guide.

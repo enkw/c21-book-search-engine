@@ -1,8 +1,8 @@
 const express = require('express');
 
-// Imports the apollo server and express middleware
+// Imports the apollo server and our middleware
 const { ApolloServer } = require('@apollo/server');
-const { expressMiddleware } = require('@apollo/server/express4');
+const { authMiddleware } = require('./utils/auth');
 const path = require('path');
 
 // Imports our typeDefs and resolvers
@@ -14,6 +14,8 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  // This causes our middleware to be used for authentication
+  context: authMiddleware,
 });
 
 const startApolloServer = async () => {
@@ -22,7 +24,7 @@ const startApolloServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  app.use('/graphql', expressMiddleware(server));
+  app.use('/graphql', authMiddleware(server));
 
   // if we're in production, serve client/build as static assets
   if (process.env.NODE_ENV === 'production') {
