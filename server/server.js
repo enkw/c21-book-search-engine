@@ -1,44 +1,47 @@
 const express = require('express');
-
-// Imports the apollo server and our middleware
-const { ApolloServer } = require('apollo-server-express');
-const { authMiddleware } = require('./utils/auth');
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
+const { authMiddleware } = require('./utils/auth');
 
-// Imports our typeDefs and resolvers
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: authMiddleware,
+	typeDefs,
+	resolvers,
 });
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// Create a new instance of an Apollo Server with the GraphQL schema
+const startApolloServer = async () => {
+	await server.start();
 
-// if we're in production, serve client/build as static assets
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
+	app.use(express.urlencoded({ extended: false }));
+	app.use(express.json());
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  });
-}
+	app.use('/graphql', expressMiddleware(server, {
+		context: authMiddleware
+	}));
 
-const startApolloServer = async (typeDefs, resolvers) => {
-  await server.start();
-  server.applyMiddleware({ app });
+	if (process.env.NODE_ENV === 'production') {
+		// In production, when we no longer need to use the vite dev server, we serve the React app that is in the dist/ directory 
+		app.use(express.static(path.join(__dirname, '../client/dist')));
 
-  db.once('open', () => {
-    app.listen(PORT, () => {
-      console.log(`API server running on port ${PORT}`);
-      console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
-    });
-  });
+		// Set up a wildcard route on our server since React application will handle its own routing 
+		app.get('*', (req, res) => {
+			res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+		});
+	}
+
+	db.once('open', () => {
+		app.listen(PORT, () => {
+		console.log(`API server running on port ${PORT}!`);
+		console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+		});
+	});
 };
 
+// Call the async function to start the server
 startApolloServer();
