@@ -23,7 +23,7 @@ Click the link below and you're able to search right away! If you'd like to save
 
 You can login or create a new user by selecting the login button in the upper right hand corner of the app.
   
-To try it out, click [here]([update dis link](https://c21-book-search-engine-fkav.onrender.com)).
+To try it out, click [here](https://c21-book-search-engine-fkav.onrender.com).
 
 Example:
 ![Screenshot of UPDATE THIS](./screenshots/Screenshot-of-search.png)
