@@ -1,8 +1,6 @@
 // Referenced https://www.apollographql.com/tutorials/side-quest-intermediate-schema-design/03-the-input-type
 // to learn how to take in user input for the book search
-import { gql } from '@apollo/server/express4';
-
-const typeDefs = gql`
+const typeDefs = `
  type User {
     _id: ID
     username: String
